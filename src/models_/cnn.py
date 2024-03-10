@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torchvision.models as models
 import logging
-
+ 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class CNN(nn.Module):
@@ -14,23 +14,26 @@ class CNN(nn.Module):
         logging.info(f"==> Loaded Model: {self.architecture}")
         logging.info(f"==> Pretrained weights: {self.pretrained}")
 
-    def get_pretrained_cnn(self):
         if self.architecture == 'resnet':
             self.model = models.resnet50(weights=self.pretrained)
             # Remove the fully connected layers
             self.model = nn.Sequential(*list(self.model.children())[:-2])
+            self.dim = 2048
         elif self.architecture == 'vgg':
-            self.model = models.vgg16(weights=self.pretrained)
+            self.model = models.vgg19(weights=self.pretrained)
+            self.dim = 512
             # Remove the fully connected layers
             self.model = nn.Sequential(*list(self.model.features.children()))
         elif self.architecture == 'alexnet':
             self.model = models.alexnet(weights=self.pretrained)
             # Remove the fully connected layers
             self.model = nn.Sequential(*list(self.model.features.children()))
+            self.dim = 256
         elif self.architecture == 'googlelenet':
             self.model = models.inception_v3(weights=self.pretrained)
             # Remove the fully connected layers
             self.model = nn.Sequential(*list(self.model.children())[:-3])
+            self.dim = 1024
         else:
             raise ValueError(f"Unsupported model: {self.architecture}")
         
@@ -41,16 +44,15 @@ class CNN(nn.Module):
         elif self.freeze_weights and not self.pretrained:
             print("WARNING: Cannot freeze the weights if the pretrained models is not set.")
 
-        return self.model
     
     def print_layers(self):
-        model = self.get_pretrained_cnn()
-        for idx, layer in enumerate(model.children()):
+        for idx, layer in enumerate(self.model.children()):
             print(f"Layer {idx}: {layer}")
 
     def forward(self, x):
-        cnn = self.get_pretrained_cnn()
-        x = cnn(x)
+        x = self.model(x)
+        x = x.permute(0, 2, 3, 1)
+        x = x.view(x.size(0), -1, x.size(-1))
         return x
     
 if __name__ == "__main__":

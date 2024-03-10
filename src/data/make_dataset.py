@@ -36,16 +36,16 @@ def txt_clean(caption):
     caption = ' '.join(descp)
     return caption
 
-def build_interim():
+def build_interim(data_path):
     data_captions = []
     i = 0
-    for dirname, _, filenames in os.walk("./data/raw/"):
+    for dirname, _, filenames in os.walk(os.path.join(data_path, "raw")):
         for filename in tqdm(filenames):
             if filename.split(".")[-1] == "csv":
                 df = pd.read_csv(os.path.join(dirname, filename))
                 for index, row in df.iterrows():
                     filename = row['filename'].split("/")[-1]
-                    captions = [txt_clean(x) for x in ast.literal_eval(row['captions'])[0].strip().split(".") if x != ""]
+                    captions = ["<start> " + txt_clean(x) + " <eos>" for x in ast.literal_eval(row['captions'])[0].strip().split(".") if x != ""]
                     image = convert_bytes_to_Image(row['image'])
 
                     data_captions.append({
@@ -54,17 +54,18 @@ def build_interim():
                     })
 
                     # save file to disk if it doesn't exist
-                    # image_path = os.path.join("../data/interim/images", filename)
-                    # if not os.path.exists(image_path):
-                    #     image.save(image_path, format="jpeg")
+                    image_path = os.path.join(data_path, "interim/images", filename)
+                    if not os.path.exists(image_path):
+                        image.save(image_path, format="jpeg")
                     i += 1
                     if i == 2:
                         break
 
-    data_captions_path = os.path.join("./data/interim/", "caption_2.json")
+    data_captions_path = os.path.join(data_path, "interim", "caption_3.json")
     with open(data_captions_path, "w") as f:
         json.dump(data_captions, f, indent=4)
 
 
 if __name__ == '__main__':
-    build_interim()
+    data_path_ = r"/Users/sergiosuzerainosson/Documents/project/universite_project/s4/modelisation_vision/image-caption-generation/data"
+    build_interim(data_path_)
