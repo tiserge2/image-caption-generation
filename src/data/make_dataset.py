@@ -19,6 +19,7 @@ def convert_bytes_to_Image(byte_array) :
     """
     return Image.open(io.BytesIO((ast.literal_eval(byte_array)['bytes'])))
 
+
 #Data cleaning function will convert all upper case alphabets to lowercase, removing punctuations and words containing numbers
 def txt_clean(caption):
     table = str.maketrans('','',string.punctuation)
@@ -35,6 +36,7 @@ def txt_clean(caption):
     #converting back to string
     caption = ' '.join(descp)
     return caption
+
 
 def build_interim(data_path):
     data_captions = []
