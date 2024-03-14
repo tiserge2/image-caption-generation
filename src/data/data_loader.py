@@ -23,15 +23,16 @@ class RSICDataset(Dataset):
          return len(txt_vocab(self.annotations))
     
     def __getitem__(self, idx):
-        descriptions = self.annotations[idx]['captions']
+        all_descriptions = self.annotations[idx]['captions']
         path_to_image = os.path.join(self.img_dir, self.annotations[idx]['filename'])
+        filename = self.annotations[idx]['filename']
         image = io.imread(path_to_image)
         if self.transform:
             image = self.transform(image)
 
-        descriptions = [descriptions[0]]
+        descriptions = [all_descriptions[0]]
         in_sequences = create_sequences(self.tokens_params['tokenizer'], self.tokens_params['max_length'], self.tokens_params['vocab_size'], descriptions)
-        return image, torch.squeeze(torch.tensor(np.array(in_sequences), dtype=torch.long))
+        return image, torch.squeeze(torch.tensor(np.array(in_sequences), dtype=torch.long)), all_descriptions, filename
 
 if __name__ == "__main__":
     image_dir_path = r"/Users/sergiosuzerainosson/Documents/project/universite_project/s4/modelisation_vision/image-caption-generation/data/interim/images"

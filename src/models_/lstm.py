@@ -3,8 +3,10 @@ import torch.nn as nn
 from src.models_.attention import Attention
 
 class LSTM(nn.Module):
-    def __init__(self, vocabulary_size, encoder_dim):
+    def __init__(self, vocabulary_size, encoder_dim, training=True):
         super(LSTM, self).__init__()
+
+        self.training = training
 
         self.vocabulary_size = vocabulary_size
         self.encoder_dim = encoder_dim
@@ -34,7 +36,12 @@ class LSTM(nn.Module):
         h, c = self.get_init_lstm_state(img_features)
         max_timespan = max([len(caption) for caption in captions]) - 1
         # print(f"\n\ncaptions size: {captions.shape}")
-        embedding = self.embedding(captions)
+
+        prev_words = torch.zeros(batch_size, 1).long()
+        if self.training:
+            embedding = self.embedding(captions)
+        else:
+            embedding = self.embedding(prev_words)
 
         preds = torch.zeros(batch_size, max_timespan, self.vocabulary_size)
         alphas = torch.zeros(batch_size, max_timespan, img_features.size(1))
@@ -53,7 +60,11 @@ class LSTM(nn.Module):
             # print(f"gated context unsqueez size: {gated_context.unsqueeze(1).shape}")
             # print(f"embeddings size: {embedding.shape}")
             # print(f"embeddings sliced size: {embedding[:, t].squeeze(1).shape}")
-            lstm_input = torch.cat((embedding[:, t], gated_context), dim=1)
+            if self.training:
+                lstm_input = torch.cat((embedding[:, t], gated_context), dim=1)
+            else:
+                embedding = embedding.squeeze(1) if embedding.dim() == 3 else embedding
+                lstm_input = torch.cat((embedding, gated_context), dim=1)
             # print(f"lstm input size: {lstm_input.shape}\n\n")
 
             h, c = self.lstm(lstm_input, (h, c))
@@ -61,6 +72,9 @@ class LSTM(nn.Module):
 
             preds[:, t] = output
             alphas[:, t] = alpha
+
+            if not self.training :
+                embedding = self.embedding(output.max(1)[1].reshape(batch_size, 1))
 
         return preds, alphas
 
