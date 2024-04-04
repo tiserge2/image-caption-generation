@@ -41,16 +41,19 @@ def txt_clean(caption):
 def build_interim(data_path, test_data, build_test, shortage, examples, data_caption_name):
     data_captions = []
     i = 0
+    missing = 0
     for dirname, _, filenames in os.walk(os.path.join(data_path, "raw")):
         for filename in tqdm(filenames):
             if filename.split(".")[-1] == "csv":
                 df = pd.read_csv(os.path.join(dirname, filename))
+                print(f"len df: {len(df)}")
                 for index, row in df.iterrows():
                     filename = row['filename'].split("/")[-1]
                     if (not build_test and filename in test_data) or (build_test and filename not in test_data):
+                        missing += 1
                         continue
-                    # captions = ["<start> " + txt_clean(x) + " <eos>" for x in ast.literal_eval(row['captions'])[0].strip().split(".") if x != ""]
-                    captions = [x for x in ast.literal_eval(row['captions'])[0].strip().split(".") if x != ""]
+                    captions = ["<start> " + txt_clean(x) + " <eos>" for x in ast.literal_eval(row['captions'])[0].strip().split(".") if x != ""]
+                    # captions = [x for x in ast.literal_eval(row['captions'])[0].strip().split(".") if x != ""]
                     image = convert_bytes_to_Image(row['image'])
 
                     data_captions.append({
@@ -80,6 +83,7 @@ def build_interim(data_path, test_data, build_test, shortage, examples, data_cap
                 data_caption_name = data_caption_name + "_train.json"
             else:
                 data_caption_name = data_caption_name + f"_{examples}_train.json"
+    print(f"missing: {missing}")
 
 
     data_captions_path = os.path.join(data_path, "interim", data_caption_name)
@@ -93,7 +97,7 @@ if __name__ == '__main__':
     with open(test_data, "r") as f:
         test_data = json.load(f)
     build_test = False
-    shortage = False
-    examples = 150
-    data_caption_name = "captions_all_no_preproc"
+    shortage = True
+    examples = 10
+    data_caption_name = "captions"
     build_interim(data_path_, test_data, build_test, shortage, examples, data_caption_name)

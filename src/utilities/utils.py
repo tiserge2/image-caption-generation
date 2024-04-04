@@ -61,7 +61,9 @@ def show_metrics(metrics):
     headers = ['Metric', 'Value'] + list(range(1, len(table_data) + 1))
 
     # Print the table using tabulate library with desired format
-    print(tabulate(table_data, headers=headers, tablefmt='fancy_grid'))
+    metrics = tabulate(table_data, headers=headers, tablefmt='fancy_grid')
+    print(metrics)
+    return metrics
 
 
 class MetricsCalculator:

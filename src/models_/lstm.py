@@ -26,11 +26,6 @@ class LSTM(nn.Module):
         self.lstm = nn.LSTMCell(512 + encoder_dim, 512)
 
     def forward(self, img_features, captions):
-        """
-        We can use teacher forcing during training. For reference, refer to
-        https://www.deeplearningbook.org/contents/rnn.html
-
-        """
         batch_size = img_features.size(0)
 
         h, c = self.get_init_lstm_state(img_features)
@@ -52,20 +47,11 @@ class LSTM(nn.Module):
             gate = self.sigmoid(self.f_beta(h))
             gated_context = gate * context
 
-            # print(f"image feature size: {img_features.shape}")
-            # print(f"context size: {context.shape}")
-            # print(f"gate size: {gate.shape}")
-
-            # print(f"gated context size: {gated_context.shape}")
-            # print(f"gated context unsqueez size: {gated_context.unsqueeze(1).shape}")
-            # print(f"embeddings size: {embedding.shape}")
-            # print(f"embeddings sliced size: {embedding[:, t].squeeze(1).shape}")
             if self.training:
                 lstm_input = torch.cat((embedding[:, t], gated_context), dim=1)
             else:
                 embedding = embedding.squeeze(1) if embedding.dim() == 3 else embedding
                 lstm_input = torch.cat((embedding, gated_context), dim=1)
-            # print(f"lstm input size: {lstm_input.shape}\n\n")
 
             h, c = self.lstm(lstm_input, (h, c))
             output = self.deep_output(self.dropout(h))
@@ -80,7 +66,7 @@ class LSTM(nn.Module):
 
     def get_init_lstm_state(self, img_features):
         avg_features = img_features.mean(dim=1)
-
+        # print(f"size avg_features: {avg_features.shape}")
         c = self.init_c(avg_features)
         c = self.tanh(c)
 

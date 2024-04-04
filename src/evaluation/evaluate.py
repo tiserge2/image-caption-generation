@@ -9,22 +9,21 @@ from torch.utils.data import DataLoader
 import torch
 from tqdm import tqdm
 from torch.nn.utils.rnn import pack_padded_sequence
-from src.data.encode_sequence import decode_sequence
+from src.data.encode_sequence import decode_sequence 
 from src.utilities.utils import MetricsCalculator, show_metrics
 
 
-def launch_evaluation(image_dir_path, test_caption_path, all_captions_path, tokens_path, path_config, best_model_path):
+def launch_evaluation(image_dir_path, test_caption_path, all_captions_path, tokens_path, path_config, best_model_path, best_model_folder):
     # get experimentation configurations
     with open(path_config, "r") as f:
         config = json.load(f)
 
     # get the tokens from training
     tokens_params = load_tokens(all_captions_path, tokens_path)
-    tokenizer = tokens_params['tokenizer']
 
     arch = config['architecture']
 
-    if arch in ["alexnet", "vgg", "resnet"]:
+    if arch in ["alexnet", "vgg", "resnet18"]:
         input_size = (224, 224)
     elif arch == "googlelenet":
         input_size = (299, 299)
@@ -84,7 +83,12 @@ def launch_evaluation(image_dir_path, test_caption_path, all_captions_path, toke
     # Compute Meteor score
     metrics_calculator.compute_meteor()
     scores = metrics_calculator.scores
-    show_metrics(scores)
+    metrics_results = show_metrics(scores)
+    # save the metrics in txt file
+    with open(os.path.join(best_model_folder, "test_results.txt"), "w") as f:
+        f.write(metrics_results)
+
+    return references_data, predictions_data
     
 
 if __name__ == "__main__":

@@ -14,11 +14,11 @@ class CNN(nn.Module):
         logging.info(f"==> Loaded Model: {self.architecture}")
         logging.info(f"==> Pretrained weights: {self.pretrained}")
 
-        if self.architecture == 'resnet':
-            self.model = models.resnet50(weights=self.pretrained)
+        if self.architecture == 'resnet18': # resnet 18 
+            self.model = models.resnet18(weights=self.pretrained)
             # Remove the fully connected layers
             self.model = nn.Sequential(*list(self.model.children())[:-2])
-            self.dim = 2048
+            self.dim = 512
         elif self.architecture == 'vgg':
             self.model = models.vgg19(weights=self.pretrained)
             self.dim = 512
@@ -33,10 +33,10 @@ class CNN(nn.Module):
             self.model = models.inception_v3(weights=self.pretrained)
             # Remove the fully connected layers
             self.model = nn.Sequential(*list(self.model.children())[:-3])
-            self.dim = 1024
+            self.dim = 512
         else:
             raise ValueError(f"Unsupported model: {self.architecture}")
-        
+        # print(self.model)
         # Freeze weights if specified
         if self.freeze_weights and self.pretrained:
             for param in self.model.parameters():
@@ -50,6 +50,7 @@ class CNN(nn.Module):
             print(f"Layer {idx}: {layer}")
 
     def forward(self, x):
+        # print(f"size x: {x.shape}")
         x = self.model(x)
         x = x.permute(0, 2, 3, 1)
         x = x.view(x.size(0), -1, x.size(-1))

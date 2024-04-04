@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
+import os
+from torch.utils.tensorboard import SummaryWriter
 
-def plot_losses(train_losses, val_losses):
+def plot_losses(train_losses, val_losses, path_to_save_loss, show_plot=False):
     """
     Plot training and validation losses over epochs.
 
@@ -8,15 +10,27 @@ def plot_losses(train_losses, val_losses):
         train_losses (list): List of training losses for each epoch.
         val_losses (list): List of validation losses for each epoch.
     """
-    epochs = range(1, len(train_losses) + 1)
 
-    plt.figure(figsize=(10, 6))
-    plt.plot(epochs, train_losses, label='Training Loss', marker='o')
-    plt.plot(epochs, val_losses, label='Validation Loss', marker='o')
-    plt.title('Training and Validation Losses')
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.xticks(epochs)  # Set x-coordinates to integers
-    plt.legend()
-    plt.grid(True)
-    plt.show()
+    if show_plot:
+        epochs = range(1, len(train_losses) + 1)
+        plt.figure(figsize=(10, 6))
+        plt.plot(epochs, train_losses, label='Training Loss', marker='o')
+        plt.plot(epochs, val_losses, label='Validation Loss', marker='o')
+        plt.title('Training and Validation Losses')
+        plt.xlabel('Epoch')
+        plt.ylabel('Loss')
+        plt.xticks(epochs)  # Set x-coordinates to integers
+        plt.legend()
+        plt.grid(True)
+        plt.show()
+        plt.close() 
+
+
+def write(train_losses, val_losses, path_to_save_, save_plot=False):
+    if save_plot:
+        writer = SummaryWriter(path_to_save_)
+
+        for i in range(len(val_losses)):
+            writer.add_scalars("Losses", {"train": train_losses[i], "validation": val_losses[i]}, i)
+
+        writer.close()
