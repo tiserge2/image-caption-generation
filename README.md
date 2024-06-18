@@ -56,7 +56,7 @@ Remote sensing images are particularly rich in information, as they are captured
     <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/industrial_331.jpg" 
         width="200"
         alt="Remote Sensing image of a residential area" />
-    <figcaption style="font-size: 8px;">Remote Sensing image of an industrial area (example image)</figcaption>
+    <figcaption style="font-size: 8px">Remote Sensing image of an industrial area (example image)</figcaption>
     </figure>
 </div>
 
