@@ -51,15 +51,9 @@ With significant advancements in the field of imaging and photography, we are cu
 One of these methods is remote sensing, a technique for acquiring images remotely using aerial devices such as drones, airplanes, and satellites. 
 Remote sensing images are particularly rich in information, as they are captured at high resolution.
 
-<div align="center">
-    <figure>
-    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/industrial_331.jpg" 
-        width="500"
-        alt="Remote Sensing image of a residential area" />
-    <figcaption align="center">Remote Sensing image of an industrial area (example image)</figcaption>
-    </figure>
-</div>
-
+| ![space-1.jpg](https://github.com/tiserge2/image-caption-generation/blob/main/data/external/industrial_331.jpg) | 
+|:--:| 
+| *Remote Sensing image of an industrial area (example image)* |
 
 ### Caption Generation
 Image caption generation is the process of recognizing the context of an image and annotating it with relevant captions using deep learning and computer vision. 
@@ -71,39 +65,24 @@ Discuss how they work together for caption generation. -->
 
 Encoder-decoder are method usded to accomplish the task of caption generation in a single pipeline. 
 
-<div align="center">
-    <figure>
-    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/encoder-decoder-arch.png" 
-        width="1200"
-        alt="Remote Sensing image of a residential area" />
-    <figcaption align="center">Encoder-Decoder architecture for caption generation task</figcaption>
-    </figure>
-</div>
+| ![space-1.jpg](https://github.com/tiserge2/image-caption-generation/blob/main/data/external/encoder-decoder-arch.png) | 
+|:--:| 
+| *Encoder-Decoder architecture for caption generation task* |
 
 The encoder part consist of deep learning CNN which aims at extracting features from the input images. 
 The Encoder encodes the input image with 3 color channels into a smaller image with "learned" channels.
 This smaller encoded image is a summary representation of all that's useful in the original image.
 
-<div align="center">
-    <figure>
-    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/encoder.png" 
-        width="1200"
-        alt="Remote Sensing image of a residential area" />
-    <figcaption align="center">Encoder features extraction</figcaption>
-    </figure>
-</div>
+| ![space-1.jpg](https://github.com/tiserge2/image-caption-generation/blob/main/data/external/encoder.png) | 
+|:--:| 
+| *Encoder features extraction* |
 
 The decoder part is reponsible to look at the encoded image and generate caption word by word while focusing on 
 important part with attention mechanism. Since we are generating sequence, we need to use Recurrent Neural Network (RNN). I have used an LSTM there.
 
-<div align="center">
-    <figure>
-    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/decoder.png" 
-        width="1200"
-        alt="Remote Sensing image of a residential area" />
-    <figcaption align="center">Decoder used to generate the sequence</figcaption>
-    </figure>
-</div>
+| ![space-1.jpg](https://github.com/tiserge2/image-caption-generation/blob/main/data/external/decoder.png) | 
+|:--:| 
+| *Decoder used to generate the sequence* |
 
 ## 3. Repository Description
 <!-- ### Repository Information
@@ -171,8 +150,8 @@ Explain the purpose of key files and folders. -->
 ### Data Preparation
 <!-- Describe the dataset(s) used.  
 Explain data preprocessing steps (e.g., image augmentation, normalization). -->
-For this project we have used the RSCID dataset which can be found and downloaded here: [LINK](https://www.kaggle.com/datasets/thedevastator/rsicd-image-caption-dataset?resource=d).
-This dataset consist of 10921 images, each of the images is accompanied by 5 descriptions created by human annotators. Here is the distribution of the different object categories within the dataset.
+For this project I have used the RSCID dataset, as described in the paper, which can be found and downloaded here: [LINK](https://www.kaggle.com/datasets/thedevastator/rsicd-image-caption-dataset?resource=d).
+This dataset consist of 10921 images, each of the images is accompanied by 5 descriptions created by human annotators. Here is the distribution of the different categories within the dataset.
 
 <div align="center">
     <figure>
@@ -183,7 +162,7 @@ This dataset consist of 10921 images, each of the images is accompanied by 5 des
     </figure>
 </div>
 
-Another analysis consisted in checking the word usage in the descriptions created by the annotator, in order to understand to probable prediction of the models. By checking this stats the top 5 words used are **a**, **are**, **green**, **many**, **trees**. The word **a** is remove for consistency of the model, because it will create some imbalance, as it has been used a lot, and not having it beeing predicted might not be that harmful to our model. We can see also that some very descriptive words aren't use very much, so we can yet suppose that they won't be predicted that much by the model.
+Another analysis consisted in checking the word usage in the descriptions created by the annotators, in order to understand to probable prediction of the models. By checking this stats, the top 5 words used are **a**, **are**, **green**, **many**, **trees**. We can see also see that some very descriptive words aren't use very much, so we can yet suppose they won't be predicted that much by the model.
 
 <div align="center">
     <figure>
@@ -294,37 +273,23 @@ Include visual examples of generated captions. -->
 To train the model I have used the 90% of the dataset, which is divided into 80% for train and 20% for validation. Here is the train/validation loss curve of the best model
 from the experimentations conducted so far, with an early stopping with patience of 10 and learning rate 2e-05:  
 
-<div align="center">
-    <figure>
-    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/loss_train_val.png" 
-        width="1200"
-        alt="Remote Sensing image of a residential area" />
-    <figcaption align="center">Train/Validation loss curve for 50 epochs</figcaption>
-    </figure>
-</div>
+| ![space-1.jpg](https://github.com/tiserge2/image-caption-generation/blob/main/data/external/loss_train_val.png) | 
+|:--:| 
+| *Train/Validation loss curve for 50 epochs* |
 
 The model was able obtain a BLEU-1 score of 44.4% on the test set. Suggesting is was able to find 44% of the sequence with 1 length. 
 
-<div style="text-align:center;">
-    <figure>
-    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/result.png" 
-        width="1200"
-        alt="Remote Sensing image of a residential area" />
-    <figcaption align="center"">Performance of the model on the test dataset </figcaption>
-    </figure>
-</div>
+
+| ![space-1.jpg](https://github.com/tiserge2/image-caption-generation/blob/main/data/external/result.png) | 
+|:--:| 
+| *Performance of the model on the test dataset* |
 
 Here is a some examples of the captions generated by the models. Textes with light green background refer to the ground truth descriptions. 
 Blue background is caption describing perfectly the image, whereas red background are not well descripted at all.
 
-<div align="center">
-    <figure>
-    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/some_result.png" 
-        width="1200"
-        alt="Remote Sensing image of a residential area" />
-    <figcaption align="center"">Some captions generated by the model</figcaption>
-    </figure>
-</div>
+| ![space-1.jpg](https://github.com/tiserge2/image-caption-generation/blob/main/data/external/some_result.png) | 
+|:--:| 
+| *Some captions generated by the model* |
 
 ### Analysis of Results
 <!-- Interpret the results and discuss their significance.  
@@ -337,14 +302,9 @@ sure the attention computation which is very crucial. While analysis the compute
 they almost looks alike accross different images and even accross predicted words. Meaning there might be a problem in the computation or 
 it's not well trained or initialized. 
 
-<div align="center">
-    <figure>
-    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/attention_vis.png" 
-        width="1200"
-        alt="Remote Sensing image of a residential area" />
-    <figcaption align="center">Attention computed by the model</figcaption>
-    </figure>
-</div>
+| ![space-1.jpg](https://github.com/tiserge2/image-caption-generation/blob/main/data/external/attention_vis.png) | 
+|:--:| 
+| *Attention computed by the model* |
 
 The issue of this result doesn't only come from the fact the attention cannot focus on the relevant part of the image. When we check on the top predicted words by the model it reflect perfectly the top word used in the descriptions of the dataset. So in some how the model has seen those words a lot, so it got too good at predicting them, hence almost predicting them all the time. 
 
@@ -408,7 +368,7 @@ This project is very important because of it's application in different domain w
 result I have got, and future improvement which can be done, I am pretty sure, it can achieve some outstanding audience and be
 very useful.
 
-## 8. How to contribute
+## 9. How to contribute
 
 1. Fork the project 🍴
 2. Make a pull request 🛬
