@@ -53,7 +53,7 @@ Remote sensing images are particularly rich in information, as they are captured
 
 <div style="text-align:center;">
     <figure>
-    <img src="/Users/sergiosuzerainosson/Documents/project/universite_project/s4/modelisation_vision/image-caption-generation/data/external/industrial_331.jpg" 
+    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/industrial_331.jpg" 
         width="200"
         alt="Remote Sensing image of a residential area" />
     <figcaption style="font-size: 8px;">Remote Sensing image of an industrial area (example image)</figcaption>
@@ -73,7 +73,7 @@ Encoder-decoder are method usded to accomplish the task of caption generation in
 
 <div style="text-align:center;">
     <figure>
-    <img src="/Users/sergiosuzerainosson/Documents/project/universite_project/s4/modelisation_vision/image-caption-generation/data/external/encoder-decoder-arch.png" 
+    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/encoder-decoder-arch.png" 
         width="500"
         alt="Remote Sensing image of a residential area" />
     <figcaption style="font-size: 8px;">Encoder-Decoder architecture for caption generation task</figcaption>
@@ -86,7 +86,7 @@ This smaller encoded image is a summary representation of all that's useful in t
 
 <div style="text-align:center;">
     <figure>
-    <img src="/Users/sergiosuzerainosson/Documents/project/universite_project/s4/modelisation_vision/image-caption-generation/data/external/encoder.png" 
+    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/encoder.png" 
         width="500"
         alt="Remote Sensing image of a residential area" />
     <figcaption style="font-size: 8px;">Encoder features extraction</figcaption>
@@ -98,7 +98,7 @@ important part with attention mechanism. Since we are generating sequence, we ne
 
 <div style="text-align:center;">
     <figure>
-    <img src="/Users/sergiosuzerainosson/Documents/project/universite_project/s4/modelisation_vision/image-caption-generation/data/external/decoder.png" 
+    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/decoder.png" 
         width="600"
         alt="Remote Sensing image of a residential area" />
     <figcaption style="font-size: 8px;">Decoder used to generate the sequence</figcaption>
@@ -176,8 +176,19 @@ This dataset consist of 10921 images, each of the images is accompanied by 5 des
 
 <div style="text-align:center;">
     <figure>
-    <img src="/Users/sergiosuzerainosson/Documents/project/universite_project/s4/modelisation_vision/image-caption-generation/data/external/data_distribution.png" 
+    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/data_distribution.png" 
         width="700"
+        alt="Remote Sensing image of a residential area" />
+    <!-- <figcaption style="font-size: 8px;">Encoder-Decoder architecture for caption generation task</figcaption> -->
+    </figure>
+</div>
+
+Another analysis consisted in checking the word usage in the descriptions created by the annotator, in order to understand to probable prediction of the models. By checking this stats the top 5 words used are **a**, **are**, **green**, **many**, **trees**. The word **a** is remove for consistency of the model, because it will create some imbalance, as it has been used a lot, and not having it beeing predicted might not be that harmful to our model. We can see also that some very descriptive words aren't use very much, so we can yet suppose that they won't be predicted that much by the model.
+
+<div style="text-align:center;">
+    <figure>
+    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/top_word_usage.png" 
+        width="1200"
         alt="Remote Sensing image of a residential area" />
     <!-- <figcaption style="font-size: 8px;">Encoder-Decoder architecture for caption generation task</figcaption> -->
     </figure>
@@ -285,7 +296,7 @@ from the experimentations conducted so far, with an early stopping with patience
 
 <div style="text-align:center;">
     <figure>
-    <img src="/Users/sergiosuzerainosson/Documents/project/universite_project/s4/modelisation_vision/image-caption-generation/data/external/loss_train_val.png" 
+    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/loss_train_val.png" 
         width="700"
         alt="Remote Sensing image of a residential area" />
     <figcaption style="font-size: 8px;">Train/Validation loss curve for 50 epochs</figcaption>
@@ -296,7 +307,7 @@ The model was able obtain a BLEU-1 score of 44.4% on the test set. Suggesting is
 
 <div style="text-align:center;">
     <figure>
-    <img src="/Users/sergiosuzerainosson/Documents/project/universite_project/s4/modelisation_vision/image-caption-generation/data/external/result.png" 
+    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/result.png" 
         width="170"
         alt="Remote Sensing image of a residential area" />
     <figcaption style="font-size: 8px;">Performance of the model on the test dataset </figcaption>
@@ -308,7 +319,7 @@ Blue background is caption describing perfectly the image, whereas red backgroun
 
 <div style="text-align:center;">
     <figure>
-    <img src="/Users/sergiosuzerainosson/Documents/project/universite_project/s4/modelisation_vision/image-caption-generation/data/external/some_result.png" 
+    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/some_result.png" 
         width="1200"
         alt="Remote Sensing image of a residential area" />
     <figcaption style="font-size: 8px;">Some captions generated by the model</figcaption>
@@ -328,10 +339,21 @@ it's not well trained or initialized.
 
 <div style="text-align:center;">
     <figure>
-    <img src="/Users/sergiosuzerainosson/Documents/project/universite_project/s4/modelisation_vision/image-caption-generation/data/external/attention_vis.png" 
+    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/attention_vis.png" 
         width="1200"
         alt="Remote Sensing image of a residential area" />
     <figcaption style="font-size: 8px;">Some captions generated by the model</figcaption>
+    </figure>
+</div>
+
+The issue of this result doesn't only come from the fact the attention cannot focus on the relevant part of the image. When we check on the top predicted words by the model it reflect perfectly the top word used in the descriptions of the dataset. So in some how the model has seen those words a lot, so it got too good at predicting them, hence almost predicting them all the time. 
+
+<div style="text-align:center;">
+    <figure>
+    <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/top_word_predicted.png" 
+        width="1200"
+        alt="Remote Sensing image of a residential area" />
+    <figcaption style="font-size: 8px;">Top words predicted by the model</figcaption>
     </figure>
 </div>
 
@@ -341,7 +363,7 @@ To use this repository, you need to install the required dependencies which can 
 the section x for dataset creation and section xx for training and evaluation. 
 
 ```sh
-$ conda create -n rscid python=3.12
+$ conda create -n rscid python=3.10.13
 $ conda activate rscid
 $ pip install -r requirements.txt
 ``` 
