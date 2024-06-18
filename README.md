@@ -1,4 +1,4 @@
-# Remote Sensing Caption Generation with Encoder-Decoder Architecture
+# Remote Sensing Caption Generation
 ![linux-tested][linux-tested] ![mac-tested][mac-tested] 
 
 [***Introduction***](https://github.com/tiserge2/image-caption-generation#introduction)
