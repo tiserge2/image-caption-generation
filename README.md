@@ -51,12 +51,12 @@ With significant advancements in the field of imaging and photography, we are cu
 One of these methods is remote sensing, a technique for acquiring images remotely using aerial devices such as drones, airplanes, and satellites. 
 Remote sensing images are particularly rich in information, as they are captured at high resolution.
 
-<div style="text-align:center;">
+<div align="center">
     <figure>
     <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/industrial_331.jpg" 
         width="200"
         alt="Remote Sensing image of a residential area" />
-    <figcaption style="font-size: 8px">Remote Sensing image of an industrial area (example image)</figcaption>
+    <figcaption align="center">Remote Sensing image of an industrial area (example image)</figcaption>
     </figure>
 </div>
 
@@ -71,12 +71,12 @@ Discuss how they work together for caption generation. -->
 
 Encoder-decoder are method usded to accomplish the task of caption generation in a single pipeline. 
 
-<div style="text-align:center;">
+<div align="center">
     <figure>
     <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/encoder-decoder-arch.png" 
         width="500"
         alt="Remote Sensing image of a residential area" />
-    <figcaption style="font-size: 8px;">Encoder-Decoder architecture for caption generation task</figcaption>
+    <figcaption align="center">Encoder-Decoder architecture for caption generation task</figcaption>
     </figure>
 </div>
 
@@ -84,24 +84,24 @@ The encoder part consist of deep learning CNN which aims at extracting features 
 The Encoder encodes the input image with 3 color channels into a smaller image with "learned" channels.
 This smaller encoded image is a summary representation of all that's useful in the original image.
 
-<div style="text-align:center;">
+<div align="center">
     <figure>
     <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/encoder.png" 
         width="500"
         alt="Remote Sensing image of a residential area" />
-    <figcaption style="font-size: 8px;">Encoder features extraction</figcaption>
+    <figcaption align="center">Encoder features extraction</figcaption>
     </figure>
 </div>
 
 The decoder part is reponsible to look at the encoded image and generate caption word by word while focusing on 
 important part with attention mechanism. Since we are generating sequence, we need to use Recurrent Neural Network (RNN). I have used an LSTM there.
 
-<div style="text-align:center;">
+<div align="center">
     <figure>
     <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/decoder.png" 
         width="600"
         alt="Remote Sensing image of a residential area" />
-    <figcaption style="font-size: 8px;">Decoder used to generate the sequence</figcaption>
+    <figcaption align="center">Decoder used to generate the sequence</figcaption>
     </figure>
 </div>
 
@@ -174,7 +174,7 @@ Explain data preprocessing steps (e.g., image augmentation, normalization). -->
 For this project we have used the RSCID dataset which can be found and downloaded here: [LINK](https://www.kaggle.com/datasets/thedevastator/rsicd-image-caption-dataset?resource=d).
 This dataset consist of 10921 images, each of the images is accompanied by 5 descriptions created by human annotators. Here is the distribution of the different object categories within the dataset.
 
-<div style="text-align:center;">
+<div align="center">
     <figure>
     <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/data_distribution.png" 
         width="700"
@@ -185,7 +185,7 @@ This dataset consist of 10921 images, each of the images is accompanied by 5 des
 
 Another analysis consisted in checking the word usage in the descriptions created by the annotator, in order to understand to probable prediction of the models. By checking this stats the top 5 words used are **a**, **are**, **green**, **many**, **trees**. The word **a** is remove for consistency of the model, because it will create some imbalance, as it has been used a lot, and not having it beeing predicted might not be that harmful to our model. We can see also that some very descriptive words aren't use very much, so we can yet suppose that they won't be predicted that much by the model.
 
-<div style="text-align:center;">
+<div align="center">
     <figure>
     <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/top_word_usage.png" 
         width="1200"
@@ -294,12 +294,12 @@ Include visual examples of generated captions. -->
 To train the model I have used the 90% of the dataset, which is divided into 80% for train and 20% for validation. Here is the train/validation loss curve of the best model
 from the experimentations conducted so far, with an early stopping with patience of 10 and learning rate 2e-05:  
 
-<div style="text-align:center;">
+<div align="center">
     <figure>
     <img src="https://github.com/tiserge2/image-caption-generation/blob/main/data/external/loss_train_val.png" 
         width="700"
         alt="Remote Sensing image of a residential area" />
-    <figcaption style="font-size: 8px;">Train/Validation loss curve for 50 epochs</figcaption>
+    <figcaption align="center">Train/Validation loss curve for 50 epochs</figcaption>
     </figure>
 </div>
 
