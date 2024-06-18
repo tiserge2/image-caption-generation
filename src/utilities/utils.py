@@ -1,5 +1,14 @@
-import torch
-
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+from src.data.encode_sequence import decode_sequence
+from uuid import uuid4
+import os
+from pycocoevalcap.bleu.bleu import Bleu
+from pycocoevalcap.rouge.rouge import Rouge
+from pycocoevalcap.cider.cider import Cider
+from pycocoevalcap.meteor.meteor import Meteor
+from tabulate import tabulate
 
 class AverageMeter(object):
     """Taken from https://github.com/pytorch/examples/blob/master/imagenet/main.py"""
@@ -20,6 +29,17 @@ class AverageMeter(object):
 
 
 def accuracy(preds, targets, k):
+    """
+    Calculate the top-k accuracy of predictions given the targets.
+
+    Args:
+        preds (torch.Tensor): Predictions from the model of shape (batch_size, num_classes).
+        targets (torch.Tensor): Ground truth labels of shape (batch_size).
+        k (int): Top-k value for accuracy calculation.
+
+    Returns:
+        float: Top-k accuracy in percentage.
+    """
     batch_size = targets.size(0)
     _, pred = preds.topk(k, 1, True, True)
     correct = pred.eq(targets.view(-1, 1).expand_as(pred))
@@ -28,21 +48,25 @@ def accuracy(preds, targets, k):
 
 
 def calculate_caption_lengths(word_dict, captions):
+    """
+    Calculate the total number of non-special tokens in captions.
+
+    Args:
+        word_dict (dict): Dictionary containing special tokens like '<start>', '<eos>', '<pad>'.
+        captions (list of lists): List of tokenized captions where each inner list represents a caption.
+
+    Returns:
+        int: Total number of non-special tokens in all captions combined.
+    """
     lengths = 0
     for caption_tokens in captions:
         for token in caption_tokens:
-            if token in (word_dict['start'], word_dict['eos']):
+            if token in (word_dict['<start>'], word_dict['<eos>'], word_dict['<pad>']):
                 continue
             else:
                 lengths += 1
     return lengths
 
-
-from pycocoevalcap.bleu.bleu import Bleu
-from pycocoevalcap.rouge.rouge import Rouge
-from pycocoevalcap.cider.cider import Cider
-from pycocoevalcap.meteor.meteor import Meteor
-from tabulate import tabulate
 
 def show_metrics(metrics):
     """
@@ -143,6 +167,76 @@ class MetricsCalculator:
         scores, _ = self.meteor.compute_score(self.references, self.hypotheses)
         self.scores["METEOR"] = f"{scores * 100:.2f}"
 
+
+def get_attention_heatmap(image, context, word_index, tokenizer=None):
+    """
+    Visualizes the attention map overlaid on the original image.
+
+    Parameters:
+    - image (numpy.ndarray): The original image as a NumPy array.
+    - context (torch.Tensor): The attention map context.
+    - word (str): The actual word corresponding to the attention map.
+
+    """
+    # load tokenizer 
+    tokens_path = r"/home/sagemaker-user/rscid/data/processed/tokenizer.p"
+    
+    word = decode_sequence([word_index], tokenizer)
+    
+    # Ensure the attention map is 2D
+    attention_map = context.squeeze().detach().numpy()
+    attention_map = np.uint8(255 * attention_map).reshape((16, 32))
+    
+     # Normalize the attention map
+    attention_map = cv2.normalize(attention_map, None, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+
+    # Resize the attention map to match the image size using OpenCV
+    attention_map_resized = cv2.resize(attention_map, (image.shape[1], image.shape[0]))
+
+    # Apply a colormap to the attention map
+    heatmap = cv2.applyColorMap(np.uint8(255 * attention_map_resized), cv2.COLORMAP_JET)
+
+    # Overlay the heatmap on the image
+    overlayed_image = cv2.addWeighted(image, 0.9, heatmap, 0.3, 2)
+
+    return {"attention_map_resized": attention_map_resized, "overlayed_image": overlayed_image, "word": word}
+
+def save_visualize_attention(data, save_att_vis_path):
+    """
+    Save visualizations of attention for each word in a given image.
+
+    Args:
+        data (dict): A dictionary containing 'image' and 'word_attentions'.
+                     'image' should be the original image tensor.
+                     'word_attentions' should be a list of dictionaries, each containing:
+                         - 'word': The word corresponding to the attention visualization.
+                         - 'attention_map_resized': Resized attention map tensor.
+                         - 'overlayed_image': Image with overlaid attention visualization.
+        save_att_vis_path (str): Path to the directory where visualizations will be saved.
+    """
+
+    image = data['image']
+    word_attentions = data['word_attentions']
+    fig, axes = plt.subplots(len(word_attentions), 3, figsize=(26, 26))
+    save_path = os.path.join(save_att_vis_path, f"{str(uuid4())}.png")
+
+    for index, word_attention in enumerate(word_attentions):
+        # Plot the original image, attention map, and the overlayed image    
+        axes[index, 0].set_title(f"Original Image with word: {word_attention['word']}")
+        axes[index, 0].imshow(image, cmap='viridis')
+        axes[index, 0].axis('off')
+    
+        axes[index, 1].set_title("Attention Map")
+        axes[index, 1].imshow(word_attention['attention_map_resized'], cmap='jet')
+        axes[index, 1].axis('off')
+    
+        axes[index, 2].set_title("Overlayed Image")
+        axes[index, 2].imshow(word_attention['overlayed_image'])
+        axes[index, 2].axis('off')
+    
+    plt.tight_layout(rect=[0, 0.05, 1, 0.95])  # Adjust layout to fit description
+    plt.savefig(save_path)
+    plt.close()
 
 
 if __name__ == "__main__":

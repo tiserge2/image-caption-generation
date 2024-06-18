@@ -7,3 +7,20 @@ torchvision==0.16.2
 Pillow==10.2.0
 nltk==3.8.1
 gensim==4.3.2
+python==3.11.4
+pycocoevalcap
+tqdm
+keras=2.15
+tensorflow=2.15
+
+# conda create rscid
+# conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0
+# pip install tensorflow==2.12.1 pycocoevalcap joblib
+# conda install pytorch::pytorch torchvision torchaudio -c pytorchy
+# conda install nltk gensim scikit-learn scikit-image tqdm tabulate
+cannot find cuda drivers - check the tensorflow install and the cuda drivers in /usr/local/
+add cuda to path
+
+issue in pickle for loading, in old version of keras it wasn't use, instead it was joblib
+
+/home/sagemaker-user/.conda/envs/rscid

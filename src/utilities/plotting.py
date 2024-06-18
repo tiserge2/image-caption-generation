@@ -24,13 +24,3 @@ def plot_losses(train_losses, val_losses, path_to_save_loss, show_plot=False):
         plt.grid(True)
         plt.show()
         plt.close() 
-
-
-def write(train_losses, val_losses, path_to_save_, save_plot=False):
-    if save_plot:
-        writer = SummaryWriter(path_to_save_)
-
-        for i in range(len(val_losses)):
-            writer.add_scalars("Losses", {"train": train_losses[i], "validation": val_losses[i]}, i)
-
-        writer.close()

@@ -1,11 +1,15 @@
-{
-    "architecture": "resnet18",
-    "freeze_weights": false,
-    "pretrained": true,
-    "epochs": 5,
-    "lr": 0.00001,
-    "cuda": false,
-    "train_split": 0.8,
-    "show_loss_plot": true,
-    "show_example": false
-}
+[
+    {
+        "architecture": "resnet18",
+        "freeze_weights": false,
+        "pretrained": true,
+        "epochs": 50,
+        "lr": 2e-05,
+        "use_cuda": true,
+        "train_split": 0.95,
+        "show_loss_plot": true,
+        "show_example": true,
+        "optimizer": "SGD",
+        "patience": 5
+    }
+]
