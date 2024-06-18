@@ -18,7 +18,6 @@ eggs/
 .eggs/
 lib/
 lib64/
-experience_history/
 experience_saved/
 experience_testing/
 parts/
@@ -81,7 +80,10 @@ target/
 .ipynb_checkpoints/
 
 # exclude data from source control by default
-/data/
+/data/raw/
+/data/processed/
+/data/natural_images/
+/data/interim/
 
 # Mac OS-specific storage files
 .DS_Store
