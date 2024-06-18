@@ -455,5 +455,5 @@ Workshop and Conference Proceedings, pages 2048–2057. JMLR.org, 2015
 
 [linux-tested]: https://img.shields.io/badge/Linux-Tested%20on%20Linux-brightgreen?raw=true
 [windows-tested]: https://img.shields.io/badge/Windows-Tested%20on%20Windows-yellowgreen?raw=true
-[mac-tested]: https://img.shields.io/badge/Mac-Tested%20on%Mac-brightgreen?raw=true
+[mac-tested]: https://img.shields.io/badge/Mac-Tested%20on%20Mac-brightgreen?raw=true
 [mac-inp]: https://img.shields.io/badge/Mac-Mac%20Fix%20In%20Progress-lightgrey=true
