@@ -271,13 +271,13 @@ $ python evaluate.py
 <!-- Present the results of the training and evaluation.  
 Include visual examples of generated captions. -->
 To train the model I have used the 90% of the dataset, which is divided into 80% for train and 20% for validation. Here is the train/validation loss curve of the best model
-from the experimentations conducted so far, with an early stopping with patience of 10 and learning rate 2e-05:  
+from the experimentations conducted so far, with an early stopping with patience of 5 and learning rate 2e-07 using AdamW as the optimizer:  
 
 | ![space-1.jpg](https://github.com/tiserge2/image-caption-generation/blob/main/data/external/loss_train_val.png) | 
 |:--:| 
 | *Train/Validation loss curve for 50 epochs* |
 
-The model was able obtain a BLEU-1 score of 44.4% on the test set. Suggesting is was able to find 44% of the sequence with 1 length. 
+The model was able obtain a BLEU-1 score of 46.7% on the test set. Suggesting is was able to find 46% of the sequence with 1 length. 
 
 
 | ![space-1.jpg](https://github.com/tiserge2/image-caption-generation/blob/main/data/external/result.png) | 
@@ -296,7 +296,7 @@ Blue background is caption describing perfectly the image, whereas red backgroun
 Compare with baseline models or other similar works if available. -->
 
 The results obtained are far from the actual results of the paper, where they were able to reach
-60% for BLEU-1 score for the lowest result in allt their experimentations. In my case I reached 44%
+60% for BLEU-1 score for the lowest result in allt their experimentations. In my case I reached 46%
 of BLEU-1, suggesting there are lot of thing which needs to be improved. One of this thing is pretty 
 sure the attention computation which is very crucial. While analysis the computed attention maps, I realized
 they almost looks alike accross different images and even accross predicted words. Meaning there might be a problem in the computation or 
@@ -329,7 +329,7 @@ $ pip install -r requirements.txt
 ``` 
 ### System Requirements
 
-The project was tested on two different environemnet. The first is AWS Sagemaker on an instance of T4 1 GPUs of 16 GB. The second environement is 
+The project was tested on two different environemnet. The first is AWS Sagemaker on an instance of T4 with 1 GPU of 16 GB. The second environement is 
 Macbook Pro M1 with 8 GB of memory. The training process was 4 time slower on the Macbook Pro compared to the Sagemaker instance.
 
 ## 7. Challenges and Future Work
