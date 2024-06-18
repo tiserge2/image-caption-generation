@@ -1,23 +1,23 @@
 # Remote Sensing Caption Generation
 ![linux-tested][linux-tested] ![mac-tested][mac-tested] 
 
-[***Introduction***](https://github.com/tiserge2/image-caption-generation#introduction)
+[***Introduction***](https://github.com/tiserge2/image-caption-generation#1-introduction)
 
-[**Background and Theory**](https://github.com/tiserge2/image-caption-generation#background-and-theory)
+[**Background and Theory**](https://github.com/tiserge2/image-caption-generation#2-background-and-theory)
 
-[***Repository Description***](https://github.com/tiserge2/image-caption-generation#repository-description)
+[***Repository Description***](https://github.com/tiserge2/image-caption-generation#3-repository-description)
 
-[***Implementation Details***](https://github.com/tiserge2/image-caption-generation#implementation-details)
+[***Implementation Details***](https://github.com/tiserge2/image-caption-generation#4-implementation-details)
 
-[***Results***](https://github.com/tiserge2/image-caption-generation#results)
+[***Results***](https://github.com/tiserge2/image-caption-generation#5-results)
 
-[***Usage***](https://github.com/tiserge2/image-caption-generation#usage)
+[***Usage***](https://github.com/tiserge2/image-caption-generation#6-usage)
 
-[***Challenges and Future Work***](https://github.com/tiserge2/image-caption-generation#challenges-and-future-work)
+[***Challenges and Future Work***](https://github.com/tiserge2/image-caption-generation#7-challenges-and-future-work)
 
-[***How to Contribute***](https://github.com/tiserge2/image-caption-generation#how-to-contribute)
+[***How to Contribute***](https://github.com/tiserge2/image-caption-generation#8-how-to-contribute)
 
-[***References***](https://github.com/tiserge2/image-caption-generation#references)
+[***References***](https://github.com/tiserge2/image-caption-generation#9-references)
 
 
 ## 1. Introduction
