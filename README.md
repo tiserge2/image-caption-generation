@@ -47,9 +47,9 @@ ultimately supporting better decision-making and resource management in these cr
 ### Remote Sensing
 <!-- Define remote sensing and its importance.  
 Types of remote sensing data (e.g., satellite imagery, aerial photography). -->
-With significant advancements in the field of imaging and photography, we are currently witnessing an explosion of high-quality image acquisition methods. 
+With the significant advancements in the field of imaging and photography, we are currently witnessing an explosion of high-quality image acquisition methods. 
 One of these methods is remote sensing, a technique for acquiring images remotely using aerial devices such as drones, airplanes, and satellites. 
-Remote sensing images are particularly rich in information, as they are captured at high resolution.
+Remote sensing images are particularly rich in information, as they are captured at high resolution and long distance.
 
 | ![space-1.jpg](https://github.com/tiserge2/image-caption-generation/blob/main/data/external/industrial_331.jpg) | 
 |:--:| 
@@ -177,7 +177,13 @@ For this project I have divided the dataset in two part. The first one is the te
 is the train/validation set which would be divided in different ratio during the training experimentations phase.
 
 Once the dataset has been downloaded it can be added under the path data/raw for the pre-processing stage, consisting of removing trailing space and punctuation, 
-adding special token words like <start>, <pad> and <eos>. In order to create the usable dataset for training and test, we can the following steps:
+adding special token words like *<start>*, *<pad>* and *<eos>*. 
+
+| ![space-1.jpg](https://github.com/tiserge2/image-caption-generation/blob/main/data/external/preprocessing.png) | 
+|:--:| 
+| *Preprocessing steps* |
+
+In order to create the usable dataset for training and test, we can the following steps:
 
 1- Clean all the captions contained in the dataset. This will create a file called captions_all.json which will be later used to create the tokens file. 
 
